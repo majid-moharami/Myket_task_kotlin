@@ -2,33 +2,33 @@ package ir.myket.interview.myket_task_kotlin.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ir.myket.interview.myket_task_kotlin.R
+import ir.myket.interview.myket_task_kotlin.data.model.ProgramItem
+import ir.myket.interview.myket_task_kotlin.data.model.ProgramList
 import ir.myket.interview.myket_task_kotlin.databinding.ProgramItemBinding
 import ir.myket.interview.myket_task_kotlin.viewmodel.ProgramItemsViewModel
+import javax.inject.Inject
 
-class ProgramListAdapter(viewModel: ProgramItemsViewModel, owner: LifecycleOwner) :
+class ProgramListAdapter @Inject constructor(viewModel: ProgramItemsViewModel) :
     RecyclerView.Adapter<ProgramListAdapter.ProgramHolder>() {
 
     var mViewModel: ProgramItemsViewModel = viewModel
-    var mOwner : LifecycleOwner = owner
+   // var mOwner : LifecycleOwner = owner
+    var mList : List<ProgramItem>?=null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProgramHolder {
-        var mBinding = DataBindingUtil.inflate<ProgramItemBinding>(
+        var mBinding =ProgramItemBinding.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.program_item,
             parent,
             false
         )
-        return ProgramHolder(mBinding , mViewModel , mOwner)
+        return ProgramHolder(mBinding , mViewModel)
     }
 
     override fun onBindViewHolder(holder: ProgramHolder, position: Int) {
-        holder.bindProgramItem(position)
+        mViewModel.getProgramItem(position)?.let { holder.bindProgramItem(it) }
 
         if (position == (mViewModel.mProgramItemLiveData.value?.size !! ) - 1) {
             mViewModel.upDateList()
@@ -36,29 +36,24 @@ class ProgramListAdapter(viewModel: ProgramItemsViewModel, owner: LifecycleOwner
     }
 
     override fun getItemCount(): Int {
-        val size = intArrayOf(0)
-        mViewModel.mProgramItemLiveData.observe(mOwner,
-            Observer<List<Any?>> { programItems -> size[0] = programItems.size })
-        return size[0]
+//        val size = intArrayOf(0)
+//        mViewModel.mProgramItemLiveData.observe(mOwner,
+//            Observer<List<Any?>> { programItems -> size[0] = programItems.size })
+        return mList?.size ?: 0
     }
 
     class ProgramHolder(
         programItemBinding: ProgramItemBinding,
-        viewModel: ProgramItemsViewModel,
-        owner: LifecycleOwner
+        viewModel: ProgramItemsViewModel
     ) :
         RecyclerView.ViewHolder(programItemBinding.root) {
         var mBinding: ProgramItemBinding = programItemBinding
         var viewModel = viewModel;
-        init {
-            mBinding.viewModel = viewModel
-            mBinding.lifecycleOwner = owner
-        }
 
-        fun bindProgramItem(position: Int){
-            mBinding.position = position
-            mBinding.executePendingBindings()
 
+        fun bindProgramItem(programItem: ProgramItem){
+            mBinding.textViewTitle.text = programItem.mTitle
+            mBinding.textViewCategory.text = programItem.mCategory
             var imageURL = viewModel.mProgramItemLiveData.value?.get(position)?.mIconUrl
             Glide.with(mBinding.root).load(imageURL)
                 .into(mBinding.imageViewIcon)

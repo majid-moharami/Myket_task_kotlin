@@ -7,11 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ir.myket.interview.myket_task_kotlin.data.model.ProgramItem
 import ir.myket.interview.myket_task_kotlin.data.repository.Repository
+import ir.myket.interview.myket_task_kotlin.di.mainActivity.MainActivityScope
 import ir.myket.interview.myket_task_kotlin.utill.CalculateLastRating
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class ProgramItemsViewModel @Inject constructor(): ViewModel() {
-    @Inject lateinit var mRepository : Repository
+class ProgramItemsViewModel @Inject constructor(val mRepository : Repository): ViewModel() {
     private var mOffset = 20
     lateinit var mProgramItemLiveData: LiveData<List<ProgramItem>>
     var mMostRateLiveData: MutableLiveData<Int> = MutableLiveData<Int>()

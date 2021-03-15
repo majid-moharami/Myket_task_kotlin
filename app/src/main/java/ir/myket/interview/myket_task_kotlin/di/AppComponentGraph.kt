@@ -4,12 +4,19 @@ import android.app.Application
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import ir.myket.interview.myket_task_kotlin.di.dialogactivity.DialogSubComponent
+import ir.myket.interview.myket_task_kotlin.di.mainActivity.MainActivityScope
+import ir.myket.interview.myket_task_kotlin.di.mainActivity.MainActivitySubComponent
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [
-    NetworkModule::class ,
-    AppSubComponent::class])
+@Component(
+    modules = [
+        NetworkModule::class,
+        AppSubComponent::class,
+        RepositoryModule::class,
+        ContextModule::class]
+)
 interface AppComponentGraph {
 
     @Component.Factory
@@ -18,5 +25,7 @@ interface AppComponentGraph {
         fun create(@BindsInstance context: Context): AppComponentGraph
     }
 
+
     fun mainActivitySubComponent(): MainActivitySubComponent.Factory
+    fun dialogComponent(): DialogSubComponent.Factory
 }

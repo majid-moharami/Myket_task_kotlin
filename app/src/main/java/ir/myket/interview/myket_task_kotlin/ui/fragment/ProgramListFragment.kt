@@ -1,29 +1,24 @@
 package ir.myket.interview.myket_task_kotlin.ui.fragment
 
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.Target
 import ir.myket.interview.myket_task_kotlin.R
 import ir.myket.interview.myket_task_kotlin.adapter.ProgramListAdapter
 import ir.myket.interview.myket_task_kotlin.data.model.ProgramItem
-import ir.myket.interview.myket_task_kotlin.databinding.FragmentProgramListBinding
 import ir.myket.interview.myket_task_kotlin.databinding.ListFragmentBinding
-import ir.myket.interview.myket_task_kotlin.di.AppComponentGraph
-import ir.myket.interview.myket_task_kotlin.di.MainActivitySubComponent
 import ir.myket.interview.myket_task_kotlin.di.MyApplication
+import ir.myket.interview.myket_task_kotlin.ui.activity.DialogActivity
 import ir.myket.interview.myket_task_kotlin.viewmodel.ProgramItemsViewModel
-import ir.myket.interview.myket_task_kotlin.viewmodel.TestVMFactory
 import javax.inject.Inject
 
 
@@ -32,18 +27,18 @@ class ProgramListFragment : Fragment() {
     lateinit var mBinding: ListFragmentBinding
     @Inject lateinit var vmFactory : ViewModelProvider.Factory
     private val mViewModel: ProgramItemsViewModel by viewModels{vmFactory}
-    lateinit var mAdaptor: ProgramListAdapter
+    @Inject lateinit var mAdaptor: ProgramListAdapter
     var isLoading = true
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val mainActivitySubComponent = (activity as MyApplication).appComponent.mainActivitySubComponent().create()
+        val mainActivitySubComponent = (activity?.application as MyApplication).appComponent.mainActivitySubComponent().create()
         mainActivitySubComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mAdaptor = ProgramListAdapter(mViewModel, this)
+        mAdaptor = ProgramListAdapter(mViewModel)
         observers()
     }
 
@@ -52,15 +47,12 @@ class ProgramListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        mBinding =
-            DataBindingUtil.inflate(
-                inflater,
-                R.layout.list_fragment,
-                container,
-                false
-            )
+        mBinding = ListFragmentBinding.inflate(inflater, container, false)
         mBinding.rere.layoutManager = GridLayoutManager(context, 1)
         mBinding.rere.adapter = mAdaptor
+        mBinding.mostRatingView.imageViewIcon.setOnClickListener {
+            startActivity(Intent(activity , DialogActivity::class.java))
+        }
         return mBinding.root
     }
 
@@ -85,6 +77,7 @@ class ProgramListFragment : Fragment() {
                 mBinding.loadingAnim.visibility = View.GONE
                 mBinding.wholeScreen.visibility = View.VISIBLE
             }
+            mAdaptor.mList=it
             mAdaptor.notifyDataSetChanged()
         })
     }

@@ -1,5 +1,6 @@
 package ir.myket.interview.myket_task_kotlin.data.repository
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import ir.myket.interview.myket_task_kotlin.data.model.ProgramItem
 import ir.myket.interview.myket_task_kotlin.data.model.ProgramList
@@ -11,9 +12,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
-class Repository @Inject constructor() {
+class Repository @Inject constructor(val context: Context) {
    //retrofit and api
    private lateinit var mApi: MyketApi
    private var mRetrofit : Retrofit? = RetrofitCreator.getRetrofitInstance()
