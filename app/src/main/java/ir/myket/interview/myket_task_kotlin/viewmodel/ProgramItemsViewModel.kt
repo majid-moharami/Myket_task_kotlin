@@ -1,6 +1,8 @@
 package ir.myket.interview.myket_task_kotlin.viewmodel
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,8 +21,7 @@ class ProgramItemsViewModel @Inject constructor(val mRepository : Repository): V
     private var mCalculateLastRating = CalculateLastRating()
 
     init {
-
-        mRepository.fetchProgramItems(0)
+        mRepository.fetchItemWithVolley(0)
         mProgramItemLiveData = mRepository.mProgramItemLiveData
     }
 
@@ -36,7 +37,7 @@ class ProgramItemsViewModel @Inject constructor(val mRepository : Repository): V
 
     fun upDateList() {
         if (!mRepository.mElo) {
-            mRepository.fetchProgramItems(mOffset)
+            mRepository.fetchItemWithVolley(mOffset)
             mOffset += 20
         }
     }

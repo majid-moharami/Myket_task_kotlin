@@ -12,18 +12,18 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
+        AppModule::class,
         NetworkModule::class,
         AppSubComponent::class,
-        RepositoryModule::class,
-        ContextModule::class]
+        RepositoryModule::class]
 )
 interface AppComponentGraph {
-
-    @Component.Factory
-    interface Factory {
-        // With @BindsInstance, the Context passed in will be available in the graph
-        fun create(@BindsInstance context: Context): AppComponentGraph
-    }
+//
+//    @Component.Factory
+//    interface Factory {
+//        // With @BindsInstance, the Context passed in will be available in the graph
+//        fun create(@BindsInstance context: Context): AppComponentGraph
+//    }
 
 
     fun mainActivitySubComponent(): MainActivitySubComponent.Factory

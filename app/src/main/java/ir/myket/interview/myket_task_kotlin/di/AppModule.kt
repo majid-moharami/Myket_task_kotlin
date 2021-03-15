@@ -4,14 +4,16 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import ir.myket.interview.myket_task_kotlin.data.repository.Repository
 import javax.inject.Singleton
 
+
 @Module
-class RepositoryModule constructor() {
+class AppModule(private var application: Application?) {
+
     @Provides
     @Singleton
-    fun getRepository(): Repository{
-        return Repository()
+    fun provideContext(): Context? {
+        return application?.applicationContext
     }
+
 }

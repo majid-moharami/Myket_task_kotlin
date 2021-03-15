@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         mainActivitySubComponent.inject(this)
         super.onCreate(savedInstanceState)
         mBinding =ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
         val fm = supportFragmentManager
         fm.beginTransaction()
             .replace(mBinding.fragmentContainer1.id,ProgramListFragment.newInstance())
