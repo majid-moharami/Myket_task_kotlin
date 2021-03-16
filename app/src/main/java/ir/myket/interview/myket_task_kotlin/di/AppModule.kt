@@ -8,12 +8,12 @@ import javax.inject.Singleton
 
 
 @Module
-class AppModule(private var application: Application?) {
+class AppModule() {
 
-    @Provides
-    @Singleton
-    fun provideContext(): Context? {
-        return application?.applicationContext
-    }
+//    @Provides
+//    @Singleton
+//    fun provideContext(): Context? {
+//        return application?.applicationContext
+//    }
 
 }

@@ -9,6 +9,7 @@ import ir.myket.interview.myket_task_kotlin.data.model.ProgramItem
 import ir.myket.interview.myket_task_kotlin.data.model.ProgramList
 import ir.myket.interview.myket_task_kotlin.data.network.MyketApi
 import org.json.JSONObject
+import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +21,7 @@ class Repository @Inject constructor() {
     @Inject
     lateinit var mRequestQueue: RequestQueue
     @Inject
-    lateinit var rr: MyketApi
+    lateinit var rr: Retrofit
 
     //   init {
 //     mApi = mRetrofit?.create(MyketApi::class.java)!!

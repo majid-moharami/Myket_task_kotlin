@@ -10,8 +10,8 @@ import javax.inject.Singleton
 
 @Module
 abstract class ContextModule constructor(private val context : Context) {
-
-    @Singleton
-    @Binds
-    abstract fun context(appInstance: Application):Context
+//
+//    @Singleton
+//    @Binds
+//    abstract fun context(appInstance: Application):Context
 }

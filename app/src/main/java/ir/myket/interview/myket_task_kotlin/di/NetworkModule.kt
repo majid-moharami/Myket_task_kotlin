@@ -11,21 +11,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class NetworkModule {
+class NetworkModule constructor() {
 
     @Provides
-    fun getRetrofitInstance():MyketApi{
+    fun getRetrofitInstance():Retrofit{
         return Retrofit.Builder()
             .baseUrl("https://apiserver236.myket.ir/v1/applications/package/All_Data/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(MyketApi::class.java)
+            //.create(MyketApi::class.java)
     }
 
 
     @Provides
     @Singleton
-    fun provideQueue(context: Context): RequestQueue? {
+    fun provideQueue( context: Context): RequestQueue? {
         return Volley.newRequestQueue(context)
     }
 }

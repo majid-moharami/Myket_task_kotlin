@@ -9,9 +9,7 @@ class MyApplication : Application() {
 
     private val component: AppComponentGraph? = null
     val appComponent: AppComponentGraph by lazy {
-        DaggerAppComponentGraph.builder()
-            .appModule(AppModule(applicationContext as Application?))
-            .build()
+        DaggerAppComponentGraph.factory().create(applicationContext)
     }
 //     var appComponent: AppComponentGraph? = null
 //
@@ -19,10 +17,10 @@ class MyApplication : Application() {
 //    fun getAppComponent(): AppComponentGraph? {
 //        return appComponent
 //    }
-
-     fun initDagger(application: MyApplication?): AppComponentGraph? {
-        return DaggerAppComponentGraph.builder()
-            .appModule(AppModule(application))
-            .build()
-    }
+//
+//     fun initDagger(application: MyApplication?): AppComponentGraph? {
+//        return DaggerAppComponentGraph.builder()
+//            .appModule(AppModule(application))
+//            .build()
+//    }
 }
