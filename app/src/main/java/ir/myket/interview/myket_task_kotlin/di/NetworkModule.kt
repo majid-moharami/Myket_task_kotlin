@@ -25,7 +25,7 @@ class NetworkModule constructor() {
 
     @Provides
     @Singleton
-    fun provideQueue( context: Context): RequestQueue? {
+    fun provideQueue( context: Context): RequestQueue {
         return Volley.newRequestQueue(context)
     }
 }

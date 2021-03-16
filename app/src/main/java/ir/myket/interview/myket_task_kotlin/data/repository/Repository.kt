@@ -7,21 +7,22 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import ir.myket.interview.myket_task_kotlin.data.model.ProgramItem
 import ir.myket.interview.myket_task_kotlin.data.model.ProgramList
-import ir.myket.interview.myket_task_kotlin.data.network.MyketApi
 import org.json.JSONObject
-import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 @Singleton
-class Repository @Inject constructor() {
+class Repository @Inject constructor(
+    val mRequestQueue: RequestQueue
+) {
     //retrofit and api
 //   private lateinit var mApi: MyketApi
 //   private var mRetrofit : Retrofit? = RetrofitCreator.getRetrofitInstance()
-    @Inject
-    lateinit var mRequestQueue: RequestQueue
-    @Inject
-    lateinit var rr: Retrofit
+//    @Inject
+//    lateinit var mRequestQueue: RequestQueue
+//    @Inject
+//    lateinit var rr: Retrofit
 
     //   init {
 //     mApi = mRetrofit?.create(MyketApi::class.java)!!
@@ -58,7 +59,7 @@ class Repository @Inject constructor() {
                 mElo = programList.mElo
 
             },
-            { error ->
+            Response.ErrorListener { error -> // Do something when get error
                 Log.d("MAJID", "TOF")
             }
         ) {
